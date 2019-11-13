@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .videoArea {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+
+        .videoArea>video {
+            height: 300px;
+            width: 300px;
+        }
+
+        .canvasArea {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <video id="video" autoplay="autoplay" style="background: #ccc;" style="float: left" width="640px"
+        height="480px"></video>
+    <canvas id="canvas" style="display:none;background-color:#F00;" width="640px" height="480px"></canvas> -->
+    <div class="videoArea">
+        <h2>视频图像区</h2>
+        <input type="button" title="开启摄像头" value="开启摄像头" onclick="getMedia()" />
+        <video id="myVideo" autoplay="autoplay"></video>
+    </div>
+    <div class="canvasArea">
+        <h2>拍照成像区</h2>
+        <button id="snap" onclick="takePhoto()">拍照</button>
+        <canvas id="canvas" width="500px" height="500px"></canvas>
+    </div>
+    <script src="./js/qrcode.min.js"></script>
+    <script type="text/javascript">
+        function getMedia() {
+            let constraints = {
+                video: {
+                    width: 500,
+                    height: 500
+                },
+                audio: false
+            };
+            let video = document.getElementById("myVideo");
+            console.log(navigator);
+            let promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise.then(function (MediaStream) {
+                video.srcObject = MediaStream;
+                video.play();
+            });
+        }
+
+        function takePhoto() {
+            //获得Canvas对象
+            let video = document.getElementById("myVideo");
+            let canvas = document.getElementById("canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, 500, 500);
+        }
+    </script>
+</body>
+
+</html>
